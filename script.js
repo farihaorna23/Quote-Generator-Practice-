@@ -4,18 +4,36 @@ const twitterButton = document.getElementById("twitter");
 console.log(twitterButton);
 const quote = document.getElementById("quote");
 const author = document.getElementById("author");
+const loader = document.getElementById("loader");
 //making it global so that all functions can use it.
 let apiQuotes = [];
 
+//to shhow that we are loading
+function loading() {
+  //we don't want it to be hidden
+  loader.hidden = false;
+  //we only want to see the loader and nothing else
+  quoteContainer.hidden = true;
+}
+
+function complete() {
+  quoteContainer.hidden = false;
+  loader.hidden = true;
+}
+
 //show new quote
 function newQuote() {
+  loading();
   //pick a random quote from apiquotes array
   const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
+
+  complete();
   return quote; //will return both quote & author
 }
 
 // Get quotes from API
 async function getQuotes() {
+  loading();
   const apiUrl = "https://type.fit/api/quotes";
   try {
     const response = await fetch(apiUrl);
@@ -51,5 +69,6 @@ function tweetQuote() {
 }
 
 twitterButton.addEventListener("click", tweetQuote);
+
 //on load
 getQuotes();
