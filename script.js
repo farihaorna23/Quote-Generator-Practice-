@@ -1,12 +1,17 @@
+const quoteContainer = document.getElementById("quote-container");
+const newQuoteButton = document.getElementById("new-quote");
+const quote = document.getElementById("quote");
+const author = document.getElementById("author");
 //making it global so that all functions can use it.
-//let apiQuotes = [];
+let apiQuotes = [];
 
 //show new quote
 function newQuote() {
   //pick a random quote from apiquotes array
-  const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)]["text"];
-  console.log(quote);
+  const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
+  return quote; //will return both quote & author
 }
+
 //Get quotes from API
 async function getQuotes() {
   const apiUrl = "https://type.fit/api/quotes";
@@ -18,6 +23,13 @@ async function getQuotes() {
     //handle catch error here
   }
 }
+
+newQuoteButton.addEventListener("click", function() {
+  let getQuote = newQuote(); //will have both quote & author
+  quote.textContent = getQuote["text"];
+  author.textContent = getQuote["author"];
+  // author.textContent = getQuote["author"];
+});
 
 //on load
 getQuotes();
